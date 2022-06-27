@@ -1,0 +1,58 @@
+---
+title: "ANA 515 Assignment Week 5"
+author: "Sparsh Kathuria"
+date: '2022-06-26'
+output: word_document
+---
+
+```{r setup, include = FALSE}
+# Install libraries
+library(tidyverse)
+library(knitr)
+library(bslib)
+library(ggplot2)
+```
+
+```{r , include = FALSE}
+#Import data from url
+url <- "https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv"
+df <- read_csv(url)
+print(df)
+```
+
+```{r , include = FALSE}
+#Summary of dataset
+summary(df)
+```
+
+The histogram below shows the count of people in different age groups.
+
+```{r age-dist, echo = FALSE} 
+# Change colors
+p<-ggplot(df, aes(x=age)) + 
+  geom_histogram(color="black", fill="blue", binwidth=1)
+# Add mean line
+p+ geom_vline(aes(xintercept=mean(age)),
+            color="black", linetype="dashed", size=1)
+
+```
+
+Below visualisation shows a density plot on the histogram:
+
+```{r age-density-dist, echo = FALSE} 
+ggplot(df, aes(x=age)) + 
+ geom_histogram(aes(y=..density..), colour="black", fill="white")+
+ geom_density(alpha=.2, fill="#FF6666") 
+```
+Below visaulization shows a barchart with respect to age and race:
+
+```{r race-dist, echo = FALSE} 
+# Minimal theme + blue fill color
+p<-ggplot(data=df, aes(x=race, y=age, fill = race)) +
+  geom_bar(stat="identity", fill = "steelblue")+
+  theme_minimal()
+p <- p+scale_fill_brewer(palette="Blues")
+p
+
+
+```
